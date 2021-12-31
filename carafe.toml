@@ -1,0 +1,10 @@
+# config file for carafe
+
+# port to serve on
+port = 8080
+path = "./static"
+
+# directory to serve
+[[directory]]
+# path from cwd
+path = ""

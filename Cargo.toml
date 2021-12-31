@@ -1,0 +1,12 @@
+[package]
+name = "carafe"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+toml = "0.5"
+serde = { version = "1.0", features = ["derive"] }
+log = "0.4.0"
+env_logger = "0.9.0"
+tiny_http = "0.9"
+ascii = "1.0"
