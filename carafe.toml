@@ -2,9 +2,5 @@
 
 # port to serve on
 port = 8080
+# filepath to serve
 path = "./static"
-
-# directory to serve
-[[directory]]
-# path from cwd
-path = ""
