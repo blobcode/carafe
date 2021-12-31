@@ -4,37 +4,29 @@ A simple, single-binary rust webserver with support for multiple paths and easy 
 
 ## Getting Started <a name = "getting_started"></a>
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
-
-### Prerequisites
-
-What things you need to install the software and how to install them.
-
-```
-Give examples
-```
+To get started, you will need cargo & rust installed
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running.
-
-Say what the step will be
+To install, simply clone the repo,
 
 ```
-Give the example
+git clone https://github.com/blobcode/carafe
 ```
 
-And repeat
+`cd` into it
 
 ```
-until finished
+cd carafe
 ```
+and run it
 
-End with an example of getting some data out of the system or using it for a little demo.
-
+```
+cargo run --release
+```
 ## Usage <a name = "usage"></a>
 
-You can start carafe with the `carafe` command. In this mode, it takes in a port and directory, for example
+You can start carafe with the `carafe` command (or `cargo run` in development). In this mode, it takes in a port and directory, for example
 
 ```
 carafe 8080 ./static
