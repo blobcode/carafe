@@ -3,6 +3,7 @@
 use ascii::AsciiString;
 use log::info;
 use std::fs;
+use std::fs::metadata;
 use std::path::{Path, PathBuf};
 use tiny_http::Server;
 
@@ -39,7 +40,13 @@ pub fn run(port: i32, path: String) {
 
         let url = rq.url().to_string();
         let pathstring = format!("{}{}", &path, &url);
-        let path = Path::new(&pathstring);
+        let mut path = PathBuf::from(&pathstring);
+
+        if path.is_dir() {
+            let index = Path::new("index.html");
+            path = path.join(index);
+        }
+
         let file = fs::File::open(&path);
 
         if file.is_ok() {
