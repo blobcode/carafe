@@ -3,7 +3,6 @@
 use ascii::AsciiString;
 use log::info;
 use std::fs;
-use std::fs::metadata;
 use std::path::{Path, PathBuf};
 use tiny_http::Server;
 
@@ -26,7 +25,7 @@ fn get_content_type(path: &Path) -> &'static str {
     }
 }
 
-pub fn run(port: i32, path: String) {
+pub fn run(port: i32, path: PathBuf) {
     // start server
     let server = Server::http(format!("0.0.0.0:{}", port)).unwrap();
 
@@ -39,7 +38,7 @@ pub fn run(port: i32, path: String) {
         info!("{:?}", rq);
 
         let url = rq.url().to_string();
-        let pathstring = format!("{}{}", &path, &url);
+        let pathstring = format!("{}{}", &path.to_str().unwrap(), &url);
         let mut path = PathBuf::from(&pathstring);
 
         if path.is_dir() {
