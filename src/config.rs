@@ -15,7 +15,7 @@ impl Default for Config {
     fn default() -> Config {
         Config {
             port: 8080,
-            path: PathBuf::from_str("./static").unwrap(),
+            path: PathBuf::from_str("./").unwrap(),
         }
     }
 }
