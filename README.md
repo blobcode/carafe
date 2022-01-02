@@ -39,3 +39,4 @@ carafe -c ./config/carafe.toml
 ```
 
 Please note that this will overide all cli arguments.
+For an example `carafe.toml`, take a look [here](https://github.com/blobcode/carafe/blob/master/carafe.toml).
