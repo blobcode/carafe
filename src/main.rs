@@ -7,28 +7,18 @@ mod config;
 mod server;
 
 fn main() {
-    /*
-    todo:
-    better config file finding (config.rs) - in progress
-    multiple directory support? (config.rs)
-    */
-
     // setup logging
     let env = Env::default().filter_or("MY_LOG_LEVEL", "info");
     env_logger::init_from_env(env);
 
     let args = args::parse().unwrap(); // never fails since all values are optional
 
-    // remove later
-    println!("{:#?}", args);
-
-    // todo: wrap in control flow
-    // handle merging config file and args
+    // set to defaults
     let mut config = config::default();
 
     // check if file in cwd is a thing
     if PathBuf::from_str("./carafe.toml").unwrap().is_file() {
-        config = config::read(PathBuf::from_str("./carafe.toml").unwrap())
+        config = config::read(PathBuf::from_str("./carafe.toml").unwrap()) // never fails
     }
 
     // checks if args are a thing
@@ -37,14 +27,16 @@ fn main() {
         config.path = args.dir.unwrap();
     };
 
-    // validates file
+    // validates file provided with -c
     match args.configpath {
         Some(path) => {
             if path.is_file() {
                 config = config::read(path)
             }
         }
-        _ => {}
+        _ => {
+            error!("provided config file is invalid")
+        }
     };
 
     // logos look cool
