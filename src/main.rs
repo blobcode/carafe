@@ -32,11 +32,11 @@ fn main() {
         Some(path) => {
             if path.is_file() {
                 config = config::read(path)
+            } else {
+                error!("provided config file is invalid")
             }
         }
-        _ => {
-            error!("provided config file is invalid")
-        }
+        _ => {}
     };
 
     // logos look cool
