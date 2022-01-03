@@ -8,6 +8,7 @@ use std::{fs, path::PathBuf, str::FromStr};
 pub struct Config {
     pub port: u32,
     pub root: PathBuf,
+    pub routes: Option<Vec<Serve>>,
 }
 
 // defaults to fall back to
@@ -16,8 +17,15 @@ impl Default for Config {
         Config {
             port: 8080,
             root: PathBuf::from_str("./").unwrap(),
+            routes: None,
         }
     }
+}
+
+#[derive(Debug, Deserialize, Clone)]
+pub struct Serve {
+    pub route: String,
+    pub path: PathBuf,
 }
 
 pub fn read(path: PathBuf) -> Config {
