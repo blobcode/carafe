@@ -33,7 +33,10 @@ pub fn run(config: Config) {
 
         // route matching
         for route in config.serve.as_ref().unwrap() {
-            if url == route.route || url == route.route.to_owned() + &"/".to_string() {
+            if url == route.route
+                || url == route.route.to_owned() + &"/".to_string()
+                || url == "/".to_string() + &route.route
+            {
                 let newpath = format!(
                     "{}/{}",
                     &config.root.to_str().unwrap(),
