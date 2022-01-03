@@ -1,5 +1,6 @@
 use env_logger::Env;
 use log::{error, info};
+use path_slash::PathExt;
 use std::{path::PathBuf, str::FromStr};
 
 mod args;
@@ -22,8 +23,11 @@ fn main() {
     }
 
     // checks if args are a thing
-    if args.dir.is_some() && args.port.is_some() {
+    if args.port.is_some() {
         config.port = args.port.unwrap();
+    };
+
+    if args.dir.is_some() {
         config.root = args.dir.unwrap();
     };
 
@@ -31,7 +35,9 @@ fn main() {
     match args.configpath {
         Some(path) => {
             if path.is_file() {
-                config = config::read(path)
+                let root = path.parent().unwrap().to_path_buf();
+                config = config::read(path);
+                config.root = root.join(config.root);
             } else {
                 error!("provided config file is invalid")
             }
@@ -54,7 +60,8 @@ fn main() {
     // log startup info
     info!(
         "serving {} on port {}",
-        config.root.to_str().unwrap(),
+        // format text
+        config.root.to_slash().unwrap(),
         config.port
     );
     server::run(config);

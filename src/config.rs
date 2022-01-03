@@ -30,6 +30,7 @@ pub struct RouteConfig {
 
 pub fn read(path: PathBuf) -> Config {
     let file = fs::read_to_string(path).expect("Unable to read file");
+
     Config::from(toml::from_str(&file).unwrap())
 }
 
