@@ -13,26 +13,40 @@ pub fn run(config: Config) {
     let server = Server::http(format!("0.0.0.0:{}", config.port)).unwrap();
 
     loop {
+        // error handling for request
         let rq = match server.recv() {
             Ok(rq) => rq,
             Err(_) => break,
         };
 
+        // log request
         info!("{:?}", rq);
 
         // init string
         let url = rq.url().to_string();
 
-        // create filepath
-        let pathstring = format!("{}{}", &config.root.to_str().unwrap(), &url);
+        // create root / base filepath
+        let rootpath = format!("{}{}", &config.root.to_str().unwrap(), &url);
 
         // create pathbuf
-        let mut path = PathBuf::from(&pathstring);
+        let mut path = PathBuf::from(&rootpath);
 
         // index.html checking
         if path.is_dir() {
             let index = Path::new("index.html");
             path = path.join(index);
+        }
+
+        // route matching
+        for route in config.serve.as_ref().unwrap() {
+            if url == route.route || url == route.route.to_owned() + &"/".to_string() {
+                let newpath = format!(
+                    "{}/{}",
+                    &config.root.to_str().unwrap(),
+                    &route.path.to_string_lossy()
+                );
+                path = PathBuf::from(&newpath);
+            };
         }
 
         // read file
@@ -54,6 +68,7 @@ pub fn run(config: Config) {
 
             let _ = rq.respond(response);
         } else {
+            // if file does not exist
             let rep = tiny_http::Response::new_empty(tiny_http::StatusCode(404));
             let _ = rq.respond(rep);
         }
