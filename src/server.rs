@@ -40,7 +40,6 @@ pub fn run(config: Config) {
                     &route.path.to_string_lossy()
                 );
                 path = PathBuf::from(&newpath);
-                info!("{}", newpath)
             };
         }
 
