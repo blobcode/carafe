@@ -1,0 +1,14 @@
+# config file for carafe
+
+# port to serve on
+port = 8000
+# root filepath to serve from
+root = "./static"
+
+[[serve]]
+# route to use
+route = "/test/"
+# relative path to replace with.
+# note that it appends to the root, like 
+# ./static/test/test.html
+path = "test/test.html"
