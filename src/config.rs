@@ -7,7 +7,7 @@ use std::{fs, path::PathBuf, str::FromStr};
 #[derive(Debug, Deserialize, Clone)]
 pub struct Config {
     pub port: u32,
-    pub path: PathBuf,
+    pub root: PathBuf,
 }
 
 // defaults to fall back to
@@ -15,7 +15,7 @@ impl Default for Config {
     fn default() -> Config {
         Config {
             port: 8080,
-            path: PathBuf::from_str("./").unwrap(),
+            root: PathBuf::from_str("./").unwrap(),
         }
     }
 }

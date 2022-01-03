@@ -24,7 +24,7 @@ fn main() {
     // checks if args are a thing
     if args.dir.is_some() && args.port.is_some() {
         config.port = args.port.unwrap();
-        config.path = args.dir.unwrap();
+        config.root = args.dir.unwrap();
     };
 
     // validates file provided with -c
@@ -54,8 +54,8 @@ fn main() {
     // log startup info
     info!(
         "serving {} on port {}",
-        config.path.to_str().unwrap(),
+        config.root.to_str().unwrap(),
         config.port
     );
-    server::run(config.port.try_into().unwrap(), config.path);
+    server::run(config);
 }

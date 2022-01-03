@@ -2,5 +2,9 @@
 
 # port to serve on
 port = 8080
-# filepath to serve
-path = "./static"
+# root filepath to serve from
+root = "./static"
+
+[[serve]]
+route = "/"
+path = "/"
