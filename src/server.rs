@@ -31,12 +31,6 @@ pub fn run(config: Config) {
         // create pathbuf
         let mut path = PathBuf::from(&rootpath);
 
-        // index.html checking
-        if path.is_dir() {
-            let index = Path::new("index.html");
-            path = path.join(index);
-        }
-
         // route matching
         for route in config.serve.as_ref().unwrap() {
             if url == route.route || url == route.route.to_owned() + &"/".to_string() {
@@ -46,7 +40,14 @@ pub fn run(config: Config) {
                     &route.path.to_string_lossy()
                 );
                 path = PathBuf::from(&newpath);
+                info!("{}", newpath)
             };
+        }
+
+        // index.html checking
+        if path.is_dir() {
+            let index = Path::new("index.html");
+            path = path.join(index);
         }
 
         // read file
