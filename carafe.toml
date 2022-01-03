@@ -6,5 +6,8 @@ port = 8000
 root = "./static"
 
 [[serve]]
+# route that gets redirected
 route = "/test/"
+# note that this is relative to root, so the filepath for this 
+# would be something like ./static/test/test.html
 path = "/test/test.html"
