@@ -5,6 +5,7 @@ port = 8000
 # root filepath to serve from
 root = "./static"
 
+# file aliasing
 [[serve]]
 # route to use
 route = "/test/"
@@ -12,3 +13,8 @@ route = "/test/"
 # note that it appends to the root, like 
 # ./static/test/test.html
 path = "test/test.html"
+
+# directory aliasing
+[[serve]]
+route = "/test2"
+path = "/test"

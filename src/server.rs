@@ -33,6 +33,18 @@ pub fn run(config: Config) {
 
         // route matching
         for route in config.serve.as_ref().unwrap() {
+            // alias directory
+            if url.starts_with(&route.route) {
+                let newpath = format!(
+                    "{}/{}/{}",
+                    &config.root.to_str().unwrap(),
+                    &route.path.to_string_lossy(),
+                    url.replace(&route.route, "")
+                );
+                path = PathBuf::from(&newpath);
+            }
+
+            // alias file
             if url == route.route
                 || url == route.route.to_owned() + &"/".to_string()
                 || url == "/".to_string() + &route.route
