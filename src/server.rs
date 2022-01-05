@@ -39,7 +39,7 @@ pub fn run(config: Config) {
                     "{}/{}/{}",
                     &config.root.to_str().unwrap(),
                     &route.path.to_string_lossy(),
-                    url.replace(&route.route, "")
+                    url.replacen(&route.route, "", 1)
                 );
                 path = PathBuf::from(&newpath);
             }
