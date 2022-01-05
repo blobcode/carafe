@@ -50,26 +50,23 @@ pub fn init(args: AppArgs) -> Config {
     };
 
     // validates file provided with -c
-    match args.configpath {
-        Some(path) => {
-            if path.is_file() {
-                let root = path.parent().unwrap().to_path_buf();
-                config = read(path);
-                config.root = root.join(config.root);
-            } else {
-                error!("provided config file is invalid")
-            }
+    if let Some(path) = args.configpath {
+        if path.is_file() {
+            let root = path.parent().unwrap().to_path_buf();
+            config = read(path);
+            config.root = root.join(config.root);
+        } else {
+            error!("provided config file is invalid")
         }
-        _ => {}
     };
 
-    return config;
+    config
 }
 
 pub fn read(path: PathBuf) -> Config {
     let file = fs::read_to_string(path).expect("Unable to read file");
 
-    Config::from(toml::from_str(&file).unwrap())
+    toml::from_str(&file).unwrap()
 }
 
 pub fn default() -> Config {

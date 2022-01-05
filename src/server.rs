@@ -12,13 +12,7 @@ pub fn run(config: Config) {
     // start server
     let server = Server::http(format!("0.0.0.0:{}", config.port)).unwrap();
 
-    loop {
-        // error handling for request
-        let rq = match server.recv() {
-            Ok(rq) => rq,
-            Err(_) => break,
-        };
-
+    while let Ok(rq) = server.recv() {
         // log request
         info!("{:?}", rq);
 
