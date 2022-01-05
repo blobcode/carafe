@@ -1,7 +1,6 @@
 use env_logger::Env;
-use log::{error, info};
+use log::info;
 use path_slash::PathExt;
-use std::{path::PathBuf, str::FromStr};
 
 mod args;
 mod config;
