@@ -1,7 +1,10 @@
 // file that deals with all config parsing
 
+use log::error;
 use serde::Deserialize;
 use std::{fs, path::PathBuf, str::FromStr};
+
+use crate::args::AppArgs;
 
 // main config struct
 #[derive(Debug, Deserialize, Clone)]
@@ -26,6 +29,41 @@ impl Default for Config {
 pub struct RouteConfig {
     pub route: String,
     pub path: PathBuf,
+}
+
+pub fn init(args: AppArgs) -> Config {
+    // set to defaults
+    let mut config = default();
+
+    // check if file in cwd is a thing
+    if PathBuf::from_str("./carafe.toml").unwrap().is_file() {
+        config = read(PathBuf::from_str("./carafe.toml").unwrap()) // never fails
+    }
+
+    // checks if args are a thing
+    if args.port.is_some() {
+        config.port = args.port.unwrap();
+    };
+
+    if args.dir.is_some() {
+        config.root = args.dir.unwrap();
+    };
+
+    // validates file provided with -c
+    match args.configpath {
+        Some(path) => {
+            if path.is_file() {
+                let root = path.parent().unwrap().to_path_buf();
+                config = read(path);
+                config.root = root.join(config.root);
+            } else {
+                error!("provided config file is invalid")
+            }
+        }
+        _ => {}
+    };
+
+    return config;
 }
 
 pub fn read(path: PathBuf) -> Config {
